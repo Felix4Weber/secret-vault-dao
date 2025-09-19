@@ -6,7 +6,7 @@ import { TreasureFooter } from "@/components/TreasureFooter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import treasuryHero from "@/assets/treasury-hero.png";
-import { WalletIcon, KeyIcon, DatabaseIcon } from "lucide-react";
+import { WalletIcon, KeyIcon, DatabaseIcon, LockIcon } from "lucide-react";
 
 const Index = () => {
   const { isConnected } = useAccount();
