@@ -6,7 +6,7 @@ import { TreasureFooter } from "@/components/TreasureFooter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import treasuryHero from "@/assets/treasury-hero.png";
-import { WalletIcon, ShieldCheckIcon, LockIcon } from "lucide-react";
+import { WalletIcon, KeyIcon, DatabaseIcon } from "lucide-react";
 
 const Index = () => {
   const { isConnected } = useAccount();
@@ -67,29 +67,29 @@ const Index = () => {
                 </CardContent>
               </Card>
 
-              {/* Security Features Preview */}
+              {/* Core Features Preview */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto mt-12">
                 <div className="flex flex-col items-center space-y-3 p-6 rounded-lg bg-card/30 border border-border/50 hover:border-primary/30 transition-all">
-                  <ShieldCheckIcon className="w-10 h-10 text-success animate-encryption-pulse" />
-                  <h3 className="font-semibold text-lg">Multi-Sig Security</h3>
+                  <KeyIcon className="w-10 h-10 text-primary animate-encryption-pulse" />
+                  <h3 className="font-semibold text-lg">FHE Encryption</h3>
                   <p className="text-sm text-muted-foreground text-center">
-                    Governance-controlled access with cryptographic verification
+                    Fully homomorphic encryption for complete privacy
                   </p>
                 </div>
                 
                 <div className="flex flex-col items-center space-y-3 p-6 rounded-lg bg-card/30 border border-border/50 hover:border-primary/30 transition-all">
-                  <LockIcon className="w-10 h-10 text-primary animate-vault-glow" />
-                  <h3 className="font-semibold text-lg">Encrypted Ledgers</h3>
+                  <DatabaseIcon className="w-10 h-10 text-vault-glow animate-vault-glow" />
+                  <h3 className="font-semibold text-lg">Encrypted Storage</h3>
                   <p className="text-sm text-muted-foreground text-center">
-                    Zero-knowledge balance monitoring and allocation tracking
+                    Private data storage with zero-knowledge proofs
                   </p>
                 </div>
                 
                 <div className="flex flex-col items-center space-y-3 p-6 rounded-lg bg-card/30 border border-border/50 hover:border-primary/30 transition-all">
-                  <WalletIcon className="w-10 h-10 text-vault-glow animate-value-count" />
-                  <h3 className="font-semibold text-lg">Real-time Access</h3>
+                  <WalletIcon className="w-10 h-10 text-success animate-value-count" />
+                  <h3 className="font-semibold text-lg">Multi-Wallet</h3>
                   <p className="text-sm text-muted-foreground text-center">
-                    Live treasury data with governance permission controls
+                    Connect with Rainbow, MetaMask, and other wallets
                   </p>
                 </div>
               </div>
@@ -110,8 +110,8 @@ const Index = () => {
         {/* Welcome Message */}
         <div className="text-center space-y-3">
           <div className="flex items-center justify-center gap-2 text-success mb-4">
-            <ShieldCheckIcon className="w-5 h-5" />
-            <span className="text-sm font-medium">Secure Connection Established</span>
+            <KeyIcon className="w-5 h-5" />
+            <span className="text-sm font-medium">Encrypted Connection Established</span>
           </div>
           <h1 className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-foreground via-primary to-vault-glow bg-clip-text text-transparent">
             Welcome to Your Treasury

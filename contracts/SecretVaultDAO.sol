@@ -204,12 +204,48 @@ contract SecretVaultDAO is SepoliaConfig, Ownable, ReentrancyGuard {
         totalTreasury += msg.value;
     }
     
-    function withdrawFromTreasury(uint256 _amount) public onlyOwner {
-        require(_amount <= totalTreasury, "Insufficient treasury funds");
-        require(_amount <= address(this).balance, "Insufficient contract balance");
+    function allocateTreasuryFunds(
+        uint256 _allocationId,
+        externalEuint32 _amount,
+        bytes calldata _inputProof
+    ) public {
+        require(members[msg.sender].isActive.decrypt(), "Only active members can allocate");
+        require(allocations[_allocationId].isActive.decrypt(), "Allocation not active");
         
-        totalTreasury -= _amount;
-        payable(owner()).transfer(_amount);
+        // FHE operation to verify allocation amount
+        euint32 encryptedAmount = _amount;
+        euint32 maxAllocation = FHE.asEuint32(uint32(totalTreasury / 10)); // Max 10% per allocation
+        
+        ebool canAllocate = encryptedAmount.lte(maxAllocation);
+        require(canAllocate.decrypt(), "Allocation amount exceeds limit");
+        
+        // Update allocation status using FHE
+        allocations[_allocationId].amount = encryptedAmount;
+        allocations[_allocationId].isActive = FHE.asEbool(false);
+        
+        emit TreasuryAllocated(_allocationId, allocations[_allocationId].recipient, encryptedAmount.decrypt());
+    }
+    
+    function createEncryptedAllocation(
+        string memory _purpose,
+        address _recipient,
+        externalEuint32 _amount,
+        bytes calldata _inputProof
+    ) public returns (uint256) {
+        require(members[msg.sender].isActive.decrypt(), "Only active members can create allocations");
+        
+        uint256 allocationId = allocationCounter++;
+        allocations[allocationId] = TreasuryAllocation({
+            allocationId: FHE.asEuint32(allocationId),
+            amount: _amount,
+            isActive: FHE.asEbool(true),
+            purpose: _purpose,
+            recipient: _recipient,
+            createdAt: block.timestamp
+        });
+        
+        emit TreasuryAllocated(allocationId, _recipient, _amount.decrypt());
+        return allocationId;
     }
     
     function getProposalInfo(uint256 _proposalId) public view returns (
